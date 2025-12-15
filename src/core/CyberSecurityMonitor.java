@@ -9,5 +9,5 @@ package core;
  * @author Usuario
  */
 public class CyberSecurityMonitor {
-    
+    int a;
 }
