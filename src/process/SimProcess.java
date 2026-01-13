@@ -1,13 +1,24 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package process;
 
-/**
- *
- * @author Usuario
- */
+import java.time.LocalDateTime;
+
 public class SimProcess {
-    
+    private final int pid;
+    private final String name;
+    private double cpu; 
+    private final LocalDateTime startTime;
+
+    public SimProcess(int pid, String name, double cpu, LocalDateTime startTime) {
+        this.pid = pid;
+        this.name = name;
+        this.cpu = cpu;
+        this.startTime = startTime;
+    }
+
+    public int getPid() { return pid; }
+    public String getName() { return name; }
+    public double getCpu() { return cpu; }
+    public LocalDateTime getStartTime() { return startTime; }
+
+    public void setCpu(double cpu) { this.cpu = cpu; }
 }
