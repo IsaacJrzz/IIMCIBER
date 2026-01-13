@@ -1,13 +1,22 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package core;
 
-/**
- *
- * @author Usuario
- */
+import java.time.LocalDateTime;
+
 public class Alert {
-    
+    private final LocalDateTime timestamp;
+    private final String module;
+    private final String message;
+    private final Severity severity;
+
+    public Alert(LocalDateTime timestamp, String module, String message, Severity severity) {
+        this.timestamp = timestamp;
+        this.module = module;
+        this.message = message;
+        this.severity = severity;
+    }
+
+    public LocalDateTime getTimestamp() { return timestamp; }
+    public String getModule() { return module; }
+    public String getMessage() { return message; }
+    public Severity getSeverity() { return severity; }
 }
