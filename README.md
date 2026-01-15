@@ -18,19 +18,27 @@ El objetivo es mostrar cómo un sistema de ciberseguridad puede vigilar, detecta
 
 ## 📦 Arquitectura del proyecto
 
-core/
-SDASService.java
-SDASLogger.java
-integrity/
-IntegrityMonitor.java
-FileInfo.java
-network/
-TrafficAnalyzer.java
-process/
-ProcessSimulator.java
-ProcessAnalyzer.java
-CyberSecurityMonitor.java
+## Arquitectura del proyecto
 
+```text
+src/
+└── core/
+    ├── CyberSecurityMonitor.java   // Main: arranca el SDAS
+    ├── SDASService.java            // Orquesta los módulos
+    └── SDASLogger.java             // Logger unificado (log_sdas.txt)
+
+    integrity/
+    ├── IntegrityMonitor.java       // Monitor de integridad (SHA-256)
+    └── FileInfo.java               // Modelo: ruta + hash
+
+    network/
+    └── TrafficAnalyzer.java        // Tráfico simulado + reglas básicas
+
+    process/
+    ├── ProcessSimulator.java       // Genera processes.log
+    └── ProcessAnalyzer.java        // Detecta CPU alta, lista negra, persistencia
+
+```
 
 ---
 
