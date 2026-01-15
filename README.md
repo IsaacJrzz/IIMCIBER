@@ -107,7 +107,7 @@ data/
 watch/
 
 
-> Según el entorno se pueden crear automáticamente o manualmente.
+>  crear manualmente y modificar y eliminar para ver su flujo.
 
 ---
 
