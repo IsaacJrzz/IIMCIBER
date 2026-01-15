@@ -1,5 +1,11 @@
 # SDAS – Security Detection & Analysis System
 
+<p align="center">
+  <img src="https://img.shields.io/badge/SDAS-Security%20Detection%20&%20Analysis%20System-black">
+  <img src="https://img.shields.io/badge/Java-17+-blue">
+  <img src="https://img.shields.io/badge/Status-Operational-green">
+</p>
+
 Sistema didáctico en Java orientado a la detección simulada de amenazas mediante tres módulos principales:
 
 - **Módulo 1 – Integridad de ficheros**
@@ -126,7 +132,7 @@ java CyberSecurityMonitor
 ```
 (Dependiendo de la estructura real del proyecto)
 
-🎯 Objetivo académico
+## 🎯 Objetivo académico
 
 Proyecto orientado al aprendizaje en:
 
@@ -142,7 +148,7 @@ análisis de eventos y alertas
 
 No es un IDS real, sino una maqueta simulada para docencia/demostración.
 
-✔ Estado del proyecto
+## ✔ Estado del proyecto
 
 Módulos implementados y operativos
 
