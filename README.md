@@ -18,8 +18,6 @@ El objetivo es mostrar cómo un sistema de ciberseguridad puede vigilar, detecta
 
 ## 📦 Arquitectura del proyecto
 
-## Arquitectura del proyecto
-
 ```text
 src/
 └── core/
