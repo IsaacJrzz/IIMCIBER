@@ -1,31 +1,20 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package integrity;
 
-/**
- *
- * @author MAXIM
- */
 public class FileInfo {
 
-    //Variables
-    private String fileName, hash;
+    private String filePath;
+    private String hash;
 
-    //Constructor
-    public FileInfo(String fileName, String hash) {
-        this.fileName = fileName;
+    public FileInfo(String filePath, String hash) {
+        this.filePath = filePath;
         this.hash = hash;
     }
 
-    //Getters
-    public String getFileName() {
-        return fileName;
+    public String getFilePath() {
+        return filePath;
     }
 
     public String getHash() {
         return hash;
     }
-
 }

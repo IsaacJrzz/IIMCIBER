@@ -14,7 +14,7 @@ import java.time.LocalTime;
  */
 public class LoggerSDAS {
 
-    private static final String logFile = "";
+    private static final String logFile = "C:\\Users\\MAXIM\\Desktop\\Logs.txt";
 
     public static void log(String module, String message) throws IOException {
 

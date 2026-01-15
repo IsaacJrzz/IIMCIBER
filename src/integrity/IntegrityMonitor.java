@@ -1,80 +1,77 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package integrity;
 
 import java.io.File;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 
-/**
- *
- * @author MAXIM
- */
 public class IntegrityMonitor {
 
-    //Ruta de la carpeta que vamos a analizar
-    private static final String folderPath = "";
+    // Ruta de la carpeta a monitorizar
+    private static final String folderPath = "C:\\Users\\MAXIM\\Desktop\\PruebaSha";
 
-    //ArrayList que almacená el estado anterior de los archivos
+    // Estado previo
     private ArrayList<FileInfo> pState = new ArrayList<>();
 
     public void Monitoring() throws Exception {
-        // Obtenemos el estado inicial de la carpeta
+
+        // Estado inicial
         pState = GetCState();
 
-        // Bucle infinito para monitorizar constantemente
         while (true) {
 
-            // Esperamos 5 segundos entre comprobaciones
             Thread.sleep(5000);
 
-            // Leemos el estado actual de la carpeta
-            ArrayList<FileInfo> CState = GetCState();
+            ArrayList<FileInfo> cState = GetCState();
 
-            // Comparamos el estado anterior con el actual
-            CompareStates(pState, CState);
+            CompareStates(pState, cState);
 
-            // Actualizamos el estado anterior
-            pState = CState;
+            pState = cState;
         }
-
     }
 
+    // Obtiene el estado completo de la carpeta (recursivo)
     public ArrayList<FileInfo> GetCState() throws Exception {
         ArrayList<FileInfo> fileList = new ArrayList<>();
-        File folder = new File(folderPath);
-
-        // Recorremos todos los archivos de la carpeta
-        for (File file : folder.listFiles()) {
-
-            // Solo nos interesan archivos, no subcarpetas
-            if (file.isFile()) {
-
-                // Calculamos el hash del archivo
-                String hash = CalculateHash(file);
-
-                // Guardamos la información en la lista
-                fileList.add(new FileInfo(file.getName(), hash));
-            }
-        }
+        scanFolder(new File(folderPath), fileList);
         return fileList;
     }
 
+    // Escaneo recursivo
+    private void scanFolder(File folder, ArrayList<FileInfo> fileList) throws Exception {
+
+        File[] files = folder.listFiles();
+        if (files == null) return;
+
+        for (File file : files) {
+
+            if (file.isFile()) {
+                String hash = CalculateHash(file);
+                fileList.add(new FileInfo(file.getAbsolutePath(), hash));
+            } else if (file.isDirectory()) {
+                scanFolder(file, fileList);
+            }
+        }
+    }
+
+    // SHA-256 por streaming (seguro)
     private String CalculateHash(File file) throws Exception {
 
-        // Usamos SHA-256 para garantizar la integridad del archivo
         MessageDigest digest = MessageDigest.getInstance("SHA-256");
 
-        // Leemos todo el contenido del archivo
-        byte[] fileBytes = Files.readAllBytes(file.toPath());
+        try (InputStream is = Files.newInputStream(file.toPath())) {
 
-        // Calculamos el hash
-        byte[] hashBytes = digest.digest(fileBytes);
+            byte[] buffer = new byte[8192];
+            int bytesRead;
 
-        // Convertimos el hash a formato hexadecimal
+            while ((bytesRead = is.read(buffer)) != -1) {
+                digest.update(buffer, 0, bytesRead);
+            }
+        }
+
+        byte[] hashBytes = digest.digest();
+
         StringBuilder hashString = new StringBuilder();
         for (byte b : hashBytes) {
             hashString.append(String.format("%02x", b));
@@ -83,41 +80,40 @@ public class IntegrityMonitor {
         return hashString.toString();
     }
 
+    // Comparación de estados
     private void CompareStates(ArrayList<FileInfo> oldState,
-            ArrayList<FileInfo> newState) throws Exception {
+                               ArrayList<FileInfo> newState) throws Exception {
 
-        // Comprobamos archivos modificados o eliminados
+        // Archivos eliminados o modificados
         for (FileInfo oldFile : oldState) {
 
-            FileInfo newFile = findFile(oldFile.getFileName(), newState);
+            FileInfo newFile = findFile(oldFile.getFilePath(), newState);
 
-            // Si no existe en el estado nuevo, ha sido eliminado
             if (newFile == null) {
                 LoggerSDAS.log("INTEGRITY",
-                        "The file " + oldFile.getFileName() + " has been deleted.");
+                        "The file " + oldFile.getFilePath() + " has been deleted.");
 
-                // Si existe pero el hash es distinto, ha sido modificado
             } else if (!oldFile.getHash().equals(newFile.getHash())) {
                 LoggerSDAS.log("INTEGRITY",
-                        "The file " + oldFile.getFileName() + " has been modified.");
+                        "The file " + oldFile.getFilePath() + " has been modified.");
             }
         }
 
-        // Comprobamos archivos nuevos
+        // Archivos nuevos
         for (FileInfo newFile : newState) {
 
-            if (findFile(newFile.getFileName(), oldState) == null) {
+            if (findFile(newFile.getFilePath(), oldState) == null) {
                 LoggerSDAS.log("INTEGRITY",
-                        "The file " + newFile.getFileName() + " has been created.");
+                        "The file " + newFile.getFilePath() + " has been created.");
             }
         }
     }
 
-    private FileInfo findFile(String fileName, ArrayList<FileInfo> fileList) {
+    // Busca archivo por ruta completa
+    private FileInfo findFile(String filePath, ArrayList<FileInfo> fileList) {
 
-        // Buscamos un archivo concreto dentro de la lista
         for (FileInfo file : fileList) {
-            if (file.getFileName().equals(fileName)) {
+            if (file.getFilePath().equals(filePath)) {
                 return file;
             }
         }
