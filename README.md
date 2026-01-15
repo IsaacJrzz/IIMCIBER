@@ -1,140 +1,151 @@
-🛡️ SDAS – Security Detection &amp; Analysis System
+# SDAS – Security Detection & Analysis System
+
 Sistema didáctico en Java orientado a la detección simulada de amenazas mediante tres módulos principales:
 
+- **Módulo 1 – Integridad de ficheros**
+- **Módulo 2 – Análisis de tráfico de red**
+- **Módulo 3 – Procesos y malware simulado**
 
-Módulo 1 – Integridad de ficheros
+El objetivo es mostrar cómo un sistema de ciberseguridad puede vigilar, detectar y registrar eventos sospechosos, manteniendo logs y clasificando comportamientos sospechosos.
 
+---
 
-Módulo 2 – Análisis de tráfico de red
+## 📦 Arquitectura del proyecto
 
-
-Módulo 3 – Procesos y malware simulado
-
-
-El objetivo es mostrar cómo un sistema de ciberseguridad puede vigilar, detectar y registrar eventos sospechosos, manteniendo logs y clasificando comportamientos.
-
-🚀 Ejecutable principal
+core/
+SDASService.java
+SDASLogger.java
+integrity/
+IntegrityMonitor.java
+FileInfo.java
+network/
+TrafficAnalyzer.java
+process/
+ProcessSimulator.java
+ProcessAnalyzer.java
 CyberSecurityMonitor.java
 
-Lanza los tres módulos de forma concurrente y genera los logs correspondientes.
 
-📦 Arquitectura por módulos
-core/
-    SDASService.java
-    SDASLogger.java
-integrity/
-    IntegrityMonitor.java
-    FileInfo.java
-network/
-    TrafficAnalyzer.java
-process/
-    ProcessSimulator.java
-    ProcessAnalyzer.java
+---
+
+## 🚀 Ejecución del sistema
+
+Ejecutable principal:
+
+CyberSecurityMonitor.java
 
 
-🔍 Descripción de los módulos
-✔ Módulo 1 — Integridad
-Supervisa la carpeta watch/.
-Detecta:
+Este coordina los tres módulos de forma concurrente mediante `ScheduledExecutorService`.
+
+---
+
+## 🔍 Módulos
+
+### ✔ Módulo 1 — Integridad
+
+- Supervisa la carpeta `watch/`
+- Detecta:
+  - creación de ficheros
+  - modificación de ficheros
+  - eliminación de ficheros
+- Registra eventos en el log general
+
+Implementa hashing **SHA-256** para detectar alteraciones.
+
+---
+
+### ✔ Módulo 2 — Tráfico simulado
+
+Genera tráfico en:
+
+data/traffic.log
 
 
-creación
+Simula puertos:
+
+- **Normales:** 80, 443
+- **Sospechosos / intrusión:** 22, 23, 135, 4444
+
+---
+
+### ✔ Módulo 3 — Procesos + malware
+
+Genera procesos en:
+
+data/processes.log
 
 
-modificación
+Incluye procesos de sistema y malware ficticio:
 
-
-eliminación
-
-
-Registra cambios en el log del sistema.
-
-✔ Módulo 2 — Tráfico simulado
-Genera tráfico en data/traffic.log
-Simula puertos comunes y puertos sospechosos:
-
-
-Normal: 80, 443
-
-
-Sospechosos: 22, 23, 135, 4444
-
-
-
-✔ Módulo 3 — Procesos
-Genera procesos reales + malware ficticio:
 miner.exe
-ransomware.exe
 keylogger.exe
+ransomware.exe
 backup_agent.exe
 
-Salida → data/processes.log
 
-🗂 Carpetas requeridas
-Antes de ejecutar:
+Detecta comportamientos e imprime alertas.
+
+---
+
+## 🗂 Directorios necesarios
+
+Antes de ejecutar, deben existir:
+
 data/
 watch/
 
 
-Si no existen, se crean o deben ser creadas manualmente según el entorno.
+> Según el entorno se pueden crear automáticamente o manualmente.
 
+---
 
-📝 Logs generados
+## 📝 Logs generados
+
 Durante la ejecución se generan:
+
+log_sdas.txt (log principal)
 data/processes.log
 data/traffic.log
-log_sdas.txt   (log general del sistema)
 
 
-▶ Cómo ejecutar
-Desde el IDE:
-Run CyberSecurityMonitor
+Estos sirven de evidencia para análisis posterior.
 
-Desde terminal:
+---
+
+## ▶ Cómo ejecutar
+
+### Desde IDE:
+
+- Ejecutar `CyberSecurityMonitor`
+
+### Desde terminal:
+
+```sh
 javac *.java
 java CyberSecurityMonitor
-
-(dependiendo de estructura del proyecto)
-
-🖼 Evidencias para documentación
-
-
-Arranque
-
-
-Eventos de integridad
-
-
-Procesos maliciosos simulados
-
-
-Tráfico sospechoso
-
-
-Logs generados
-
-
+```
+(Dependiendo de la estructura real del proyecto)
 
 🎯 Objetivo académico
-Proyecto orientado a aprendizaje:
 
+Proyecto orientado al aprendizaje en:
+
+monitorización de sistemas
 
 ciberseguridad
 
-
-monitorización
-
-
-detección
-
-
 modularidad
 
+concurrencia
 
-concurrencia (ScheduledExecutorService)
+análisis de eventos y alertas
 
-
-No pretende ser un IDS real, sino una maqueta funcional para demostración.
+No es un IDS real, sino una maqueta simulada para docencia/demostración.
 
 ✔ Estado del proyecto
-Módulos implementados y operativos.
+
+Módulos implementados y operativos
+
+Logs generados correctamente
+
+Entradas para capturas preparadas
