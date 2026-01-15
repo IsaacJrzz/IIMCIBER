@@ -154,10 +154,7 @@ análisis de eventos y alertas
 
 No es un IDS real, sino una maqueta simulada para docencia/demostración.
 
-## ✔ Estado del proyecto
+---
 
-Módulos implementados y operativos
+© 2026 — Iker Domínguez · Maxim Butrimov · Isaas Alonso
 
-Logs generados correctamente
-
-Entradas para capturas preparadas
